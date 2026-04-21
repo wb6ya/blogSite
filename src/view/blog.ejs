@@ -1,0 +1,60 @@
+<%
+  const cleanQuillContent = (html) => {
+    if (!html) return "";
+    return String(html)
+      .replace(/<p>\s*(<br\s*\/?>)?\s*<\/p>/gi, "")
+      .trim();
+  };
+  const formatDate = (value) => {
+    if (!value) return "Freshly published";
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return value;
+    return parsed.toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric"
+    });
+  };
+%>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<main class="blog-page">
+  <section class="blog-hero">
+    <div class="blog-hero__content">
+      <p class="blog-label">Featured Article</p>
+      <h1 class="blog-title"><%= blog.title %></h1>
+      <p class="blog-subtitle">A focused reading page with better spacing, richer typography, and less visual noise.</p>
+
+      <div class="blog-meta">
+        <span>By <%= blog.author || "Anonymous" %></span>
+        <span><%= formatDate(blog.createdAt) %></span>
+        <% if (blog.updatedAt) { %>
+          <span>Updated <%= formatDate(blog.updatedAt) %></span>
+        <% } %>
+      </div>
+    </div>
+
+    <aside class="blog-aside-card">
+      <p class="blog-aside-card__label">Quick Info</p>
+      <ul class="blog-aside-card__list">
+        <li><strong>Post ID</strong><span>#<%= blog.id %></span></li>
+        <li><strong>Author</strong><span><%= blog.author || "Anonymous" %></span></li>
+        <li><strong>Published</strong><span><%= formatDate(blog.createdAt) %></span></li>
+      </ul>
+      <a href="/home" class="back-link">Back to Home</a>
+    </aside>
+  </section>
+
+  <article class="blog-body">
+    <div class="blog-prose">
+      <%- cleanQuillContent(blog.content) || "<p>No content available for this blog yet.</p>" %>
+    </div>
+  </article>
+
+  <section class="blog-footer">
+    <p class="footer-note">Thanks for reading. The layout now prioritizes content, hierarchy, and long-form readability.</p>
+    <div class="blog-footer__actions">
+      <a href="/home#latest-posts" class="back-link back-link--secondary">More posts</a>
+      <a href="/home" class="back-link">Homepage</a>
+    </div>
+  </section>
+</main>

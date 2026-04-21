@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "title": "my first blog",
+    "author": "wb6",
+    "content": "<h1>HI</h1><p><br></p><p>My name is wb6</p><p><br></p><p>and this is my first <em>BLOG <u>YAY</u></em></p>",
+    "createdAt": "2026-04-20T14:16:58.839Z",
+    "updatedAt": "2026-04-20T14:16:58.839Z"
+  }
+]
