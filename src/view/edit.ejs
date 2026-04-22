@@ -1,0 +1,84 @@
+<%
+  const currentBlog = typeof blog !== "undefined" && blog ? blog : {};
+%>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+
+<main class="edit-page">
+  <section class="edit-hero">
+    <div>
+      <p class="edit-label">Admin Editor</p>
+      <h1 class="edit-title"><%= currentBlog.id ? "Refine your article" : "Publish a new story" %></h1>
+      <p class="edit-text">
+        Manage titles, author names, and article content from a cleaner editorial workspace
+        that matches the rest of the blog.
+      </p>
+    </div>
+
+    <div class="edit-hero__card">
+      <span>Writing flow</span>
+      <strong><%= currentBlog.id ? "Editing existing post" : "Creating draft" %></strong>
+      <small>Use the rich editor below, then save when you’re ready.</small>
+    </div>
+  </section>
+
+  <section class="edit-form-card">
+    <h2 class="form-title"><%= title || "Edit Blog" %></h2>
+
+    <form class="blog-form" action="<%= action %>" method="POST">
+      <div class="form-row">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          type="text"
+          name="title"
+          placeholder="Enter blog title"
+          value="<%= currentBlog.title || '' %>"
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <label for="author">Author</label>
+        <input
+          id="author"
+          type="text"
+          name="author"
+          placeholder="Enter author name"
+          value="<%= currentBlog.author || '' %>"
+          required
+        />
+      </div>
+
+      <div class="form-row">
+        <label for="content">Content</label>
+        <p class="form-hint">Write the article body with headings, lists, quotes, and formatted paragraphs.</p>
+        <input type="hidden" name="content" id="hiddenContent">
+        <div id="editor" class="editor-surface">
+            <%- typeof currentBlog !== 'undefined' ? currentBlog.content : '' %>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button class="action-button action-button--primary" type="submit">
+          Save Changes
+        </button>
+        <a class="action-button action-button--secondary" href="/admin">
+          Back to Admin
+        </a>
+        <a class="action-button action-button--secondary" href="/home">
+          Back to Home
+        </a>
+      </div>
+    </form>
+  </section>
+
+  <section class="edit-help">
+    <p>
+      Tip: the form pre-fills automatically when a `blog` object is passed to this view,
+      so editing existing posts stays quick and predictable.
+    </p>
+  </section>
+</main>
+
+<script src="/js/quill.js"></script>
